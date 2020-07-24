@@ -35,6 +35,7 @@ auth.onAuthStateChanged(user => {
     if (user) {
         // Everything inside here happens if user is signed in
         console.log(user)
+        console.log(user.email)
         // this assigns a value to the variable 'uid'
         uid = user.uid
         modal.style.display = `none`
@@ -47,6 +48,7 @@ auth.onAuthStateChanged(user => {
         });
         // Greet the user with a message and make it personal by using their name
         if (user.displayName) {
+            console.log(user.displayName)
             document.getElementById('display-name-header').textContent = `Hello, ${user.displayName}`
         }
 
@@ -126,7 +128,9 @@ createUserForm.addEventListener('submit', event => {
         .then(() => {
             auth.currentUser.updateProfile({
                 displayName: displayName
-            });
+            }).then(() => {
+                document.getElementById('display-name-header').textContent = `Hello, ${auth.currentUser.displayName}`
+            })
             createUserForm.reset();
             this.hideAuthElements();
         }).catch(error => {
